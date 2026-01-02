@@ -9,6 +9,15 @@ It’s designed to replace “mixed-signal” social apps where valuable advice 
 
 We focus on one thing: **helping new international students make safer, smarter decisions faster**—especially in high-stakes areas like housing, transportation, and scam prevention.
 
+## What users can do (social / community features)
+
+Bridge US is not just an information site — it’s a **social, community-driven platform** with user-generated content:
+
+- **Browse a feed** of community posts (only **approved** content is public).
+- **Explore by sections** (First week / Housing & move-in / Food & groceries / Transportation / Life admin / Safety & scams).
+- **Create an account, log in, and publish posts** (submissions go into a **review queue** first).
+- **Language support (EN/中文)** for UI + post language metadata (translation workflow planned).
+
 ## The problem
 
 International students arrive with major information gaps:
@@ -28,6 +37,14 @@ Bridge US combines **real student experiences** with **human-verified reliabilit
 - **Experience-based sharing**: real housing experiences, grocery finds, transit tips, survival checklists.
 - **Safety-first by default**: scam awareness, verification cues, and privacy-minded community design.
 - **Helpful over hype**: content is rewarded for usefulness (not attention).
+
+## Trust & moderation (how we keep it clean)
+
+Bridge US is built around a simple idea: **trust is a product feature**.
+
+- **No disguised sponsored posts**: promotions should not be able to “blend in” as advice.
+- **Human review before publishing**: new posts start as `pending_review` and only become public when `approved`.
+- **Safety-first**: moderation is where we block scams, privacy leaks, and risky instructions (AI-assisted moderation planned).
 
 ## Why AI matters here (and why it’s a big unlock)
 
@@ -88,4 +105,26 @@ Bridge US becomes the **default “new-to-the-US operating system”** for inter
 - faster adaptation,
 - and a stronger support network—powered by verified community knowledge and AI that scales it responsibly.
 
+## Current repo status (MVP implemented here)
+
+This repository contains a working **Flask + SQLite** MVP with:
+
+- **Auth**: register / login / logout (session-based)
+- **UGC posting**: logged-in users can submit posts (stored as `pending_review`)
+- **Admin review queue**: admins can approve/reject posts (only approved posts are public)
+- **Sections + feed**: homepage shows latest approved posts; section pages show approved posts
+- **Basic i18n hooks**: EN/中文 language switch via session
+
+## Run locally (Windows PowerShell)
+
+```powershell
+.\setup.ps1
+.\run.ps1
+```
+
+Then open `http://127.0.0.1:5000`.
+
+## Docs (product + architecture)
+
+See `docs/` (English + Chinese) for the product plan, trust/governance, AI + human verification, and the long-term technical architecture.
 
