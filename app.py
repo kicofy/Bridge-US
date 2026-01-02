@@ -135,16 +135,10 @@ def create_app() -> Flask:
             return ("Not found", 404)
 
         posts = list_approved_posts(limit=50, section=section_code)
-        my_pending = []
-        user_id = session.get("user_id")
-        if isinstance(user_id, int):
-            my_pending = list_user_posts_in_section(user_id=user_id, section=section_code, limit=20)
-
         return render_template(
             "section_posts.html",
             posts=posts,
             section_code=section_code,
-            my_pending=my_pending,
         )
 
     @app.get("/submit")
@@ -203,24 +197,17 @@ def create_app() -> Flask:
             author_name=author_name,
             author_handle=author_handle,
             author_user_id=user_id,
-            status="pending_review",
+            status="approved",
         )
 
-        flash("Submitted. Your post is pending review.", "success")
+        flash("Published. Your post is now live.", "success")
         return redirect(url_for("post_detail", post_id=post_id))
 
     @app.get("/posts/<int:post_id>")
     def post_detail(post_id: int):
         post = get_post_by_id(post_id)
-        # Allow author to view pending/rejected posts later; for now: only approved is public.
         if not post:
             return ("Not found", 404)
-        if post["status"] != "approved":
-            user_id = session.get("user_id")
-            if not isinstance(user_id, int):
-                return ("Not found", 404)
-            if post.get("author_user_id") != user_id:
-                return ("Not found", 404)
         return render_template("post_detail.html", post=post)
 
     @app.get("/set-lang/<lang>")
