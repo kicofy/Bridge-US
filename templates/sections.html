@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _("Sections") }} — Bridge US{% endblock %}
+
+{% block content %}
+  <section class="hero" style="padding-bottom: 10px;">
+    <h1>{{ _("Sections") }}</h1>
+    <p class="muted">Pick a category to view all posts under it.</p>
+  </section>
+
+  <section class="card">
+    <ul class="grid">
+      {% for s in sections %}
+        <li>
+          <a class="section-link" href="{{ url_for('section_posts', section_code=s.code) }}">
+            <div class="section-title">{{ s.label }}</div>
+            <div class="section-sub">{{ s.code }}</div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}
+
+

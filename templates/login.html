@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Login — Bridge US{% endblock %}
+
+{% block content %}
+  <section class="hero" style="padding-bottom: 10px;">
+    <h1>Login</h1>
+    <p class="muted">Use your email and password to sign in.</p>
+  </section>
+
+  <section class="card">
+    <form method="post" action="{{ url_for('login_submit') }}" class="form">
+      <label class="field">
+        <span class="field-label">Email</span>
+        <input class="input" type="email" name="email" required autocomplete="email" />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Password</span>
+        <input class="input" type="password" name="password" required autocomplete="current-password" />
+      </label>
+
+      <div class="divider"></div>
+      <div class="row">
+        <button class="btn" type="submit">Login</button>
+        <a class="btn btn-ghost" href="{{ url_for('register_page') }}">Create account</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}
+
+

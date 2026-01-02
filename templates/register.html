@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Register — Bridge US{% endblock %}
+
+{% block content %}
+  <section class="hero" style="padding-bottom: 10px;">
+    <h1>Create account</h1>
+    <p class="muted">Register with email, username, password, and choose your default language.</p>
+  </section>
+
+  <section class="card">
+    <form method="post" action="{{ url_for('register_submit') }}" class="form">
+      <label class="field">
+        <span class="field-label">Email</span>
+        <input class="input" type="email" name="email" required autocomplete="email" />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Username (can be duplicated)</span>
+        <input class="input" type="text" name="username" required autocomplete="username" />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Password</span>
+        <input class="input" type="password" name="password" required autocomplete="new-password" minlength="6" />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Default language</span>
+        <select class="select" name="lang" required>
+          {% for l in supported_langs %}
+            <option value="{{ l }}" {% if l == 'en' %}selected{% endif %}>{{ l }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <div class="divider"></div>
+      <div class="row">
+        <button class="btn" type="submit">Create account</button>
+        <a class="btn btn-ghost" href="{{ url_for('login_page') }}">I already have an account</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}
+
+

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Bridge US — {{ _("Home") }}{% endblock %}
+
+{% block content %}
+  <section class="hero" style="padding-bottom: 8px;">
+    <h1>Recommended</h1>
+    <p class="muted">A feed of approved posts curated for new international students.</p>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <h2 style="margin: 0;">Feed</h2>
+    </div>
+    {% if posts and posts|length > 0 %}
+      <ul class="feed">
+        {% for p in posts %}
+          <li class="post-card">
+            <div class="post-head">
+              <div class="avatar" aria-hidden="true"></div>
+              <div class="post-head-main">
+                <div class="author-line">
+                  <span class="author-name">{{ p.author_name or "Anonymous" }}</span>
+                  {% if p.author_handle %}<span class="author-handle">{{ p.author_handle }}</span>{% endif %}
+                  <span class="dot">·</span>
+                  <span class="meta">{{ section_label(p.section) }}{% if p.city %} · {{ p.city }}{% endif %}</span>
+                </div>
+              </div>
+              <div class="meta">{{ p.source_lang }}</div>
+            </div>
+
+            <div class="post-body">
+              <a class="post-title" href="{{ url_for('post_detail', post_id=p.id) }}">{{ p.title }}</a>
+            </div>
+
+            <div class="post-actions">
+              <button class="action" type="button">Helpful</button>
+              <button class="action" type="button">Comment</button>
+              <button class="action" type="button">Share</button>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">No approved posts yet. (Step 2) Insert one row with status=approved to verify DB wiring.</p>
+    {% endif %}
+  </section>
+{% endblock %}
+
+

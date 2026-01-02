@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} — Bridge US{% endblock %}
+
+{% block content %}
+  <div style="margin-top: 6px;">
+    <a class="btn btn-ghost" href="javascript:history.back()">← Back</a>
+  </div>
+
+  <article class="card" style="margin-top: 14px;">
+    <h1 style="margin-top: 0;">{{ post.title }}</h1>
+    <p class="muted" style="margin-top: 10px;">
+      {{ post.author_name or "Anonymous" }}{% if post.author_handle %} {{ post.author_handle }}{% endif %}
+      · {{ section_label(post.section) }}{% if post.city %} · {{ post.city }}{% endif %} · {{ post.source_lang }}
+      {% if post.status != 'approved' %} · <strong>{{ post.status }}</strong>{% endif %}
+    </p>
+    <div class="divider"></div>
+
+    <div class="content">
+      {{ post.content | replace('\n', '<br />') | safe }}
+    </div>
+  </article>
+{% endblock %}
+
+

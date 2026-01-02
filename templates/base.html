@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="{{ get_locale() }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Bridge US{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container">
+        <a class="brand brand-link" href="{{ url_for('index') }}">
+          <span class="logo" aria-hidden="true"></span>
+          <span>Bridge US</span>
+        </a>
+
+        <nav class="nav">
+          <a href="{{ url_for('sections_page') }}">{{ _("Sections") }}</a>
+
+          {% if current_user %}
+            <details class="menu">
+              <summary class="btn btn-ghost menu-trigger" aria-label="User menu">
+                <span class="avatar-sm" aria-hidden="true"></span>
+                <span class="menu-name">{{ current_user.username }}</span>
+              </summary>
+              <div class="menu-panel">
+                {% if current_user.is_admin == 1 %}
+                  <a class="menu-item" href="{{ url_for('admin_queue') }}">Admin queue</a>
+                  <div class="menu-divider"></div>
+                {% endif %}
+                <a class="menu-item" href="{{ url_for('submit_page') }}">Submit</a>
+                <div class="menu-divider"></div>
+                <div class="menu-label">Language</div>
+                <div class="menu-row">
+                  <a class="menu-chip" href="{{ url_for('set_lang', lang='en') }}">EN</a>
+                  <a class="menu-chip" href="{{ url_for('set_lang', lang='zh') }}">中文</a>
+                </div>
+                <div class="menu-divider"></div>
+                <form method="post" action="{{ url_for('logout') }}">
+                  <button class="menu-item menu-danger" type="submit">Logout</button>
+                </form>
+              </div>
+            </details>
+          {% else %}
+            <a class="btn btn-ghost" href="{{ url_for('login_page') }}">Login</a>
+            <details class="menu">
+              <summary class="btn btn-ghost menu-trigger" aria-label="Language menu">EN/中文</summary>
+              <div class="menu-panel">
+                <div class="menu-label">Language</div>
+                <div class="menu-row">
+                  <a class="menu-chip" href="{{ url_for('set_lang', lang='en') }}">EN</a>
+                  <a class="menu-chip" href="{{ url_for('set_lang', lang='zh') }}">中文</a>
+                </div>
+              </div>
+            </details>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="page">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-wrap">
+              {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </body>
+</html>
+
+

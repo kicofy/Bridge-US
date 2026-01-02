@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Admin queue — Bridge US{% endblock %}
+
+{% block content %}
+  <section class="hero" style="padding-bottom: 10px;">
+    <h1>Admin queue</h1>
+    <p class="muted">Review pending posts. Approve to publish to Home + Sections.</p>
+  </section>
+
+  <section class="card">
+    {% if pending and pending|length > 0 %}
+      <ul class="feed">
+        {% for p in pending %}
+          <li class="post-card">
+            <div class="post-head">
+              <div class="avatar" aria-hidden="true"></div>
+              <div class="post-head-main">
+                <div class="author-line">
+                  <span class="author-name">{{ p.author_name or "Anonymous" }}</span>
+                  {% if p.author_handle %}<span class="author-handle">{{ p.author_handle }}</span>{% endif %}
+                  <span class="dot">·</span>
+                  <span class="meta">{{ section_label(p.section) }}{% if p.city %} · {{ p.city }}{% endif %}</span>
+                </div>
+              </div>
+              <div class="meta">{{ p.source_lang }}</div>
+            </div>
+
+            <div class="post-body">
+              <a class="post-title" href="{{ url_for('post_detail', post_id=p.id) }}">{{ p.title }}</a>
+              <div class="meta" style="margin-top: 6px;">status: pending_review</div>
+            </div>
+
+            <div class="post-actions">
+              <form method="post" action="{{ url_for('admin_review', post_id=p.id) }}">
+                <input type="hidden" name="decision" value="approved" />
+                <input class="input" type="text" name="note" placeholder="Optional note" style="max-width: 360px; display:inline-block;" />
+                <button class="action" type="submit">Approve</button>
+              </form>
+              <form method="post" action="{{ url_for('admin_review', post_id=p.id) }}">
+                <input type="hidden" name="decision" value="rejected" />
+                <input class="input" type="text" name="note" placeholder="Optional note" style="max-width: 360px; display:inline-block;" />
+                <button class="action" type="submit">Reject</button>
+              </form>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">No pending posts.</p>
+    {% endif %}
+  </section>
+{% endblock %}
+
+

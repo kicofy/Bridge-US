@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section_label(section_code) }} — Bridge US{% endblock %}
+
+{% block content %}
+  <div style="margin-top: 22px;">
+    <a class="btn btn-ghost" href="{{ url_for('sections_page') }}">← {{ _("Sections") }}</a>
+  </div>
+
+  <section class="hero" style="padding-bottom: 10px;">
+    <h1>{{ section_label(section_code) }}</h1>
+    <p class="muted">All approved posts in this section.</p>
+  </section>
+
+  {% if my_pending and my_pending|length > 0 %}
+    <section class="card subtle" style="margin-bottom: 14px;">
+      <div class="row">
+        <h2>Your pending posts</h2>
+        <p class="muted">Only visible to you.</p>
+      </div>
+      <ul class="feed">
+        {% for p in my_pending %}
+          <li class="post-card">
+            <div class="post-head">
+              <div class="avatar" aria-hidden="true"></div>
+              <div class="post-head-main">
+                <div class="author-line">
+                  <span class="author-name">{{ p.author_name or "Anonymous" }}</span>
+                  {% if p.author_handle %}<span class="author-handle">{{ p.author_handle }}</span>{% endif %}
+                  {% if p.city %}<span class="dot">·</span><span class="meta">{{ p.city }}</span>{% endif %}
+                </div>
+              </div>
+              <div class="meta">{{ p.status }}</div>
+            </div>
+
+            <div class="post-body">
+              <a class="post-title" href="{{ url_for('post_detail', post_id=p.id) }}">{{ p.title }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  <section class="card">
+    {% if posts and posts|length > 0 %}
+      <ul class="feed">
+        {% for p in posts %}
+          <li class="post-card">
+            <div class="post-head">
+              <div class="avatar" aria-hidden="true"></div>
+              <div class="post-head-main">
+                <div class="author-line">
+                  <span class="author-name">{{ p.author_name or "Anonymous" }}</span>
+                  {% if p.author_handle %}<span class="author-handle">{{ p.author_handle }}</span>{% endif %}
+                  {% if p.city %}<span class="dot">·</span><span class="meta">{{ p.city }}</span>{% endif %}
+                </div>
+              </div>
+              <div class="meta">{{ p.source_lang }}</div>
+            </div>
+
+            <div class="post-body">
+              <a class="post-title" href="{{ url_for('post_detail', post_id=p.id) }}">{{ p.title }}</a>
+            </div>
+
+            <div class="post-actions">
+              <button class="action" type="button">Helpful</button>
+              <button class="action" type="button">Comment</button>
+              <button class="action" type="button">Share</button>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">No approved posts in this section yet.</p>
+    {% endif %}
+  </section>
+{% endblock %}
+
+
